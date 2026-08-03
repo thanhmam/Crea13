@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rèn Luyện Tư Duy Sáng Tạo · 13 Phương Pháp</title>
+  <meta name="description" content="Website thực hành 13 phương pháp suy nghĩ sáng tạo — rèn luyện tư duy trong thời đại AI." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a href="#" class="brand" data-nav="home">
+        <span class="brand-mark">🧠</span>
+        <span class="brand-text">Rèn Luyện <b>Tư Duy Sáng Tạo</b></span>
+      </a>
+      <nav class="top-nav">
+        <a href="#" data-nav="home">Trang chính</a>
+        <a href="#" data-nav="about">Vì sao?</a>
+        <button id="problemBtn" class="problem-chip" title="Vấn đề bạn đang suy nghĩ">🎯 <span id="problemLabel">Đặt vấn đề</span></button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="app" class="wrap"></main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>Nội dung biên soạn lại từ loạt bài <i>“Các Phương Pháp Suy Luận và Sáng Tạo”</i> — Vietsciences.
+      Xây dựng như một không gian thực hành để không lười suy nghĩ trong thời đại AI.</p>
+    </div>
+  </footer>
+
+  <!-- Hộp thoại đặt vấn đề -->
+  <div id="problemModal" class="modal hidden">
+    <div class="modal-card">
+      <h3>🎯 Vấn đề bạn đang suy nghĩ</h3>
+      <p class="muted">Viết một câu hỏi mở. Nó sẽ theo bạn qua tất cả các bài tập, để mỗi phương pháp soi vấn đề này từ một góc khác.</p>
+      <textarea id="problemInput" rows="3" placeholder="Ví dụ: Làm thế nào để mình học tập trung hơn mỗi ngày?"></textarea>
+      <div class="modal-actions">
+        <button id="problemSave" class="btn primary">Lưu</button>
+        <button id="problemClose" class="btn">Đóng</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
