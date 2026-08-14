@@ -1,15 +1,12 @@
 /* ==== Giao diện lớp phủ game 3D ==== */
 body.game-open { overflow: hidden; }
 
-.game-overlay { position: fixed; inset: 0; z-index: 100; background: #05060f; color: #e8ecf8; }
-.game-canvas-host { position: absolute; inset: 0; }
-.game-canvas-host canvas { display: block; width: 100%; height: 100%; touch-action: none; }
-
-/* Vignette đỏ khi "Kiểm Duyệt" siết vào */
-.game-vignette {
-  position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .25s;
-  background: radial-gradient(ellipse at center, transparent 38%, rgba(120, 8, 30, .55) 78%, rgba(60, 0, 12, .9) 100%);
+.game-overlay {
+  position: fixed; inset: 0; z-index: 100; color: #e8ecf8;
+  background: #080b1a radial-gradient(ellipse at 50% 42%, #16204a 0%, #080b1a 62%);
 }
+.game-canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; touch-action: none; cursor: grab; }
+.game-canvas:active { cursor: grabbing; }
 
 .game-hud { position: absolute; inset: 0; pointer-events: none; display: flex; flex-direction: column; }
 .game-hud button, .game-hud input, .game-hud a, .game-hud .g-chip { pointer-events: auto; }
@@ -69,18 +66,57 @@ kbd {
 .g-row.center { margin-top: 22px; }
 .g-problem { background: rgba(79,70,229,.18); border: 1px dashed rgba(140,160,255,.45); border-radius: 10px; padding: 10px 14px; font-size: .92rem; margin: 4px 0 18px; }
 
-/* --- HUD lúc chơi --- */
-.g-stats {
-  position: absolute; top: 8px; left: 50%; transform: translateX(-50%);
-  display: flex; gap: 10px; background: rgba(10,13,30,.72); backdrop-filter: blur(10px);
-  border: 1px solid rgba(140,160,255,.2); border-radius: 14px; padding: 10px 8px;
+/* --- Thanh chặng trên đầu --- */
+.game-steps { display: flex; gap: 6px; }
+.g-step {
+  font-size: .78rem; font-weight: 700; padding: 5px 13px; border-radius: 999px;
+  background: rgba(255,255,255,.06); color: #7c88ae; border: 1px solid transparent; white-space: nowrap;
 }
-.g-stat { min-width: 84px; text-align: center; padding: 0 10px; }
-.g-stat + .g-stat { border-left: 1px solid rgba(255,255,255,.12); }
-.g-k { display: block; font-size: .7rem; text-transform: uppercase; letter-spacing: .6px; color: #8b96bb; }
-.g-stat b { font-size: 1.35rem; font-variant-numeric: tabular-nums; }
-.g-stat b.danger { color: #ff5c78; animation: pulseRed .8s infinite; }
-@keyframes pulseRed { 50% { opacity: .45; } }
+.g-step.on { background: rgba(79,70,229,.9); color: #fff; border-color: rgba(160,180,255,.5); }
+
+/* --- Thanh ống kính (chặng khai mở) --- */
+.g-lensbar {
+  pointer-events: auto;
+  position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+  width: min(720px, 94vw); display: flex; align-items: center; justify-content: space-between; gap: 14px;
+  background: rgba(10,13,30,.86); backdrop-filter: blur(12px);
+  border: 2px solid #4f8ef7; border-radius: 16px; padding: 12px 16px;
+}
+.g-lensbar.flash { animation: lensFlash .55s ease-out; }
+@keyframes lensFlash { from { transform: translateX(-50%) scale(.965); box-shadow: 0 0 0 0 rgba(120,160,255,.55); } to { transform: translateX(-50%) scale(1); box-shadow: 0 0 0 22px rgba(120,160,255,0); } }
+.g-lens-main { display: flex; align-items: center; gap: 13px; min-width: 0; }
+.g-lens-ic { font-size: 1.9rem; }
+.g-lens-name { font-weight: 800; font-size: .8rem; text-transform: uppercase; letter-spacing: .8px; }
+.g-lens-q { font-size: 1.02rem; font-weight: 600; color: #eef2ff; }
+.g-lens-side { display: flex; gap: 8px; flex-shrink: 0; }
+.g-btn.small { padding: 6px 12px; font-size: .82rem; }
+
+.g-hints { pointer-events: auto; position: absolute; top: 96px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; width: min(720px, 94vw); }
+.g-hints span { background: rgba(255,255,255,.09); border: 1px solid rgba(255,255,255,.16); border-radius: 999px; padding: 5px 13px; font-size: .84rem; color: #c3cdf0; }
+
+/* --- Thanh tiến độ số ý --- */
+.g-progress-wrap { position: absolute; top: 12px; right: 22px; width: 210px; }
+.g-progress { position: relative; height: 9px; background: rgba(255,255,255,.12); border-radius: 999px; overflow: visible; }
+.g-progress > span { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, #4f46e5, #22d3ee, #4ade80); width: 0; transition: width .35s; }
+.g-mark { position: absolute; top: -4px; width: 2px; height: 17px; background: rgba(255,255,255,.5); }
+.g-progress-txt { margin-top: 6px; font-size: .8rem; color: #96a2c8; text-align: right; }
+.g-progress-txt b { color: #fff; font-size: 1rem; }
+
+/* --- Thanh tiêu điểm / dải nhắc --- */
+.g-focusbar {
+  pointer-events: auto; position: absolute; bottom: 92px; left: 50%; transform: translateX(-50%);
+  width: min(760px, 94vw); font-size: .88rem; color: #a9b5da; text-align: center;
+  background: rgba(10,13,30,.7); border-radius: 10px; padding: 7px 14px;
+}
+.g-focusbar a { color: #8fb2ff; cursor: pointer; text-decoration: underline; }
+.g-banner {
+  pointer-events: auto; position: absolute; top: 14px; left: 50%; transform: translateX(-50%);
+  width: min(760px, 94vw); background: rgba(10,13,30,.88); backdrop-filter: blur(12px);
+  border: 1px solid rgba(140,160,255,.3); border-radius: 14px; padding: 13px 18px;
+  font-size: .95rem; line-height: 1.6; text-align: center;
+}
+.g-inline { color: #a9b5da; font-size: .9rem; padding: 0 8px; }
+.g-chiprow { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
 
 .g-inputbar {
   position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%);
@@ -95,23 +131,7 @@ kbd {
 .g-inputbar input::placeholder { color: #7c88ae; }
 .g-inputbar input:focus { outline: none; border-color: #6ea8ff; box-shadow: 0 0 0 3px rgba(110,168,255,.18); }
 
-/* Điểm bay lên khi ghi ý */
-.g-combo-flash { position: absolute; bottom: 108px; left: 50%; transform: translateX(-50%); pointer-events: none; text-align: center; }
-.g-combo-flash span {
-  display: block; font-weight: 800; font-size: 1.5rem; color: #ffd166;
-  text-shadow: 0 2px 18px rgba(255,190,80,.6); animation: floatUp 1.1s ease-out forwards;
-}
-@keyframes floatUp { from { opacity: 0; transform: translateY(14px) scale(.85); } 25% { opacity: 1; transform: translateY(0) scale(1.06); } to { opacity: 0; transform: translateY(-52px) scale(1); } }
-
-/* Toast nhắc nguyên tắc */
-.g-toast {
-  position: absolute; top: 96px; left: 50%; transform: translate(-50%, -14px);
-  background: rgba(18,22,48,.94); border: 1px solid rgba(140,160,255,.32); border-radius: 12px;
-  padding: 11px 20px; font-size: .92rem; opacity: 0; transition: .3s; pointer-events: none; max-width: 90vw;
-}
-.g-toast.show { opacity: 1; transform: translate(-50%, 0); }
-
-/* Hộp thoại ghép ý */
+/* Hộp thoại nhập (đặt tên nhóm, quan hệ) */
 .g-modal { position: absolute; inset: 0; background: rgba(4,5,14,.72); display: flex; align-items: center; justify-content: center; pointer-events: auto; padding: 20px; }
 .g-modal-card { background: rgba(12,16,36,.97); border: 1px solid rgba(140,160,255,.3); border-radius: 16px; padding: 26px; width: min(540px, 100%); }
 .g-modal-card h3 { margin: 0 0 6px; }
@@ -121,9 +141,12 @@ kbd {
 }
 .g-modal-card input:focus { outline: none; border-color: #ff6ec7; }
 .g-modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px; }
-.g-fuse { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
-.g-pill { background: rgba(110,168,255,.18); border: 1px solid rgba(110,168,255,.4); border-radius: 999px; padding: 6px 14px; font-size: .9rem; }
-.g-plus { color: #ff6ec7; font-weight: 800; }
+
+/* Khối "mở khóa phương pháp khác" ở màn kết quả */
+.g-unlock { text-align: left; background: rgba(79,70,229,.16); border: 1px solid rgba(140,160,255,.32); border-radius: 12px; padding: 14px 18px; margin: 16px 0 12px; }
+.g-unlock h4 { margin: 0 0 8px; font-size: .95rem; }
+.g-unlock ul { margin: 0; padding-left: 20px; font-size: .9rem; line-height: 1.65; color: #c3cdf0; }
+.g-unlock b { color: #fff; }
 
 /* Bảng kết quả */
 .g-rank { font-size: 3.4rem; line-height: 1; }
@@ -150,9 +173,14 @@ kbd {
 .play-cta .btn:hover { background: #e8ecff; color: #1e1b4b; }
 .play-cta .pc-best { font-size: .82rem; color: #ffd166; font-weight: 700; }
 
-@media (max-width: 600px) {
-  .g-stats { gap: 0; padding: 8px 4px; }
-  .g-stat { min-width: 68px; padding: 0 6px; }
-  .g-stat b { font-size: 1.1rem; }
+@media (max-width: 760px) {
+  .game-steps { display: none; }
+  .g-progress-wrap { top: auto; bottom: 150px; right: 50%; transform: translateX(50%); width: min(400px, 92vw); }
+  .g-progress-txt { text-align: center; }
+  .g-lensbar { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .g-lens-side { width: 100%; }
+  .g-hints { top: 168px; }
   .g-panel { padding: 22px 18px; }
+  .g-inputbar { flex-wrap: wrap; }
+  .g-inputbar input { min-width: 100%; }
 }

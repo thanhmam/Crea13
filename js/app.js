@@ -8,7 +8,7 @@
 
   // Đăng ký game 3D cho từng phương pháp (sẽ bổ sung dần cho đủ 13 bài)
   const GAMES = {
-    brainstorm: { file: "games/brainstorm.js", name: "Vụ Nổ Ý Tưởng", desc: "Bung ý tưởng vào vũ trụ 3D trước khi Kiểm Duyệt siết lại." },
+    brainstorm: { file: "games/brainstorm.js", name: "Nở Hoa Ý Tưởng", desc: "15 ống kính dẫn bạn bung 20–50 ý từ một hạt giống, rồi nhóm và xâu chuỗi chúng lại." },
   };
 
   // ---------- Lưu trữ ----------

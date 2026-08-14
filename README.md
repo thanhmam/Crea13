@@ -29,29 +29,39 @@ từ khóa ngẫu nhiên và ô ghi ý. Toàn bộ ghi chú được **lưu ngay
 12. Đảo Lộn Vấn Đề (Reversal)
 13. Cụ Thể Hóa & Tổng Quát Hóa
 
-## Game 3D (Three.js)
+## Game thực hành
 
-Mỗi phương pháp sẽ có một game 3D để biến lý thuyết thành phản xạ. **Bài 1 đã xong**,
-12 bài còn lại đang làm dần.
+Mỗi phương pháp sẽ có một game để biến lý thuyết thành phản xạ. **Bài 1 đã xong**,
+12 bài còn lại đang làm dần. Game vẽ trên canvas 2D thuần, không thư viện ngoài.
 
-### Bài 1 · “Vụ Nổ Ý Tưởng”
+### Bài 1 · “Nở Hoa Ý Tưởng”
 
-Vấn đề của bạn là cái lõi phát sáng giữa vũ trụ. Mỗi ý gõ ra nổ tung khỏi lõi và
-bay vào quỹ đạo. Bốn nguyên tắc của Osborn được cài thẳng vào luật chơi:
+Người ta hay bí khi tập kích não vì phải nghĩ từ con số không. Game này không bắt
+nghĩ vu vơ — nó **đưa từng ống kính để soi vấn đề**, mỗi ống kính một góc nhìn.
 
-| Nguyên tắc | Cơ chế game |
-|---|---|
-| Không phê phán | Ngừng gõ quá lâu → vòng **Kiểm Duyệt** đỏ siết vào, cắt combo |
-| Hoan nghênh ý điên rồ | `Ctrl`+`Enter` → sao vàng, điểm ×2 |
-| Chạy theo số lượng | Bung ý liên tiếp dưới 8 giây → combo nhân điểm |
-| Kết hợp & cải tiến | Bấm 2 quả cầu để ghép thành siêu tân tinh, +60 điểm |
+**Chặng 1 · Khai mở.** Từ một hạt giống duy nhất (chính là vấn đề bạn đặt),
+15 ống kính lần lượt xuất hiện — *tính chất, bộ phận, nguyên nhân, kết quả,
+con người, thời gian, nơi chốn, công cụ, cảm xúc, màu sắc & hình ảnh, ngược lại,
+phóng đại, thu nhỏ, thay thế, so sánh*. Mỗi ống kính có câu hỏi riêng và nút
+gợi ý. Cứ 3 ý là tự đổi góc nhìn để không sa đà một hướng. Mục tiêu **20–50 ý**,
+có thanh tiến độ với các mốc. Bấm vào một ý bất kỳ để **đào sâu** — ý mới sẽ mọc
+ra từ đó thành tầng thứ hai.
 
-Kết thúc, game chấm điểm theo 4 chiều của tư duy sáng tạo — **lưu loát, độc đáo,
-cải tiến, dòng chảy** — kèm nhận xét, và mọi ý tưởng được đổ thẳng vào phần
-Thực hành của Bài 1 để bạn sàng lọc tiếp.
+**Chặng 2 · Nhóm ý.** Tạo nhóm, đặt tên, rồi kéo các ý vào. Chính việc đặt tên
+nhóm là **khái quát hóa**: biến nhiều ý lẻ thành một khái niệm.
 
-Three.js được **vendor sẵn** trong `vendor/` nên site chạy được offline, không
-phụ thuộc CDN.
+**Chặng 3 · Xâu chuỗi.** Nối các nhóm bằng quan hệ *dẫn tới / cần có / cản trở /
+thuộc về / giải quyết*. Một đống ý rời rạc thành một **sơ đồ hệ thống**.
+
+**Kết quả** chấm theo số ý, số góc nhìn đã dùng, số nhóm, số liên kết và độ sâu —
+rồi **xuất thẳng sang các phương pháp liên quan**:
+
+| Bạn vừa làm | Chính là phương pháp | Được lưu vào |
+|---|---|---|
+| Cây ý toả từ hạt giống | Giản đồ ý (Mind Map) | Bài 9 |
+| Đặt tên cho các nhóm | Khái quát hóa | Bài 8 |
+| Lùi lên hỏi mục đích chung | Nới rộng khái niệm | Bài 3 |
+| Nối nhân quả giữa các nhóm | Hệ thống hóa | Bài 1 |
 
 ## Chạy
 
@@ -73,18 +83,17 @@ vì chỉ gồm HTML/CSS/JS thuần.
 ```
 index.html            # khung trang + modal đặt vấn đề
 css/style.css         # giao diện trang
-css/game.css          # giao diện lớp phủ game 3D
+css/game.css          # giao diện lớp phủ game
 js/data.js            # nội dung 13 phương pháp + ngân hàng từ khóa ngẫu nhiên
 js/app.js             # router, lưu trữ, các bài tập tương tác, đăng ký game
-js/games/engine.js    # engine 3D dùng chung (sân khấu, nhãn, hạt, âm thanh)
-js/games/brainstorm.js# Bài 1 — game "Vụ Nổ Ý Tưởng"
-vendor/               # Three.js (bản vendor, giấy phép MIT kèm theo)
+js/games/canvas2d.js  # engine 2D dùng chung (mặt phẳng kéo/thu phóng, nút, âm thanh)
+js/games/brainstorm.js# Bài 1 — game "Nở Hoa Ý Tưởng"
 ```
 
 ### Thêm game cho bài mới
 
 1. Viết `js/games/<ten>.js` export hàm `launch({ problem, onFinish })`, dùng
-   `createOverlay` + `createStage` từ `engine.js`.
+   `createOverlay` + `createStage` từ `canvas2d.js`.
 2. Đăng ký vào `GAMES` ở đầu `js/app.js` — nút “Chơi ngay” tự hiện ở trang đó.
 
 ## Ghi công
