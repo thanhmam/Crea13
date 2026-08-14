@@ -3,6 +3,13 @@
   "use strict";
   const M = window.METHODS;
   const app = document.getElementById("app");
+  // Thư mục js/ — để nạp module game bằng đường dẫn tuyệt đối, không phụ thuộc trang hiện tại
+  const JS_BASE = (document.currentScript && document.currentScript.src || "js/app.js").replace(/[^/]*$/, "");
+
+  // Đăng ký game 3D cho từng phương pháp (sẽ bổ sung dần cho đủ 13 bài)
+  const GAMES = {
+    brainstorm: { file: "games/brainstorm.js", name: "Vụ Nổ Ý Tưởng", desc: "Bung ý tưởng vào vũ trụ 3D trước khi Kiểm Duyệt siết lại." },
+  };
 
   // ---------- Lưu trữ ----------
   const store = {
@@ -125,6 +132,7 @@
           </div>
         </div>
         <div class="panel"><h4>🪜 Các bước</h4><ol>${m.steps.map((x) => `<li>${x}</li>`).join("")}</ol></div>
+        ${gameCta(m)}
         <div class="panel">
           <h4>✍️ Thực hành</h4>
           <div class="workshop" id="workshop"></div>
@@ -133,7 +141,42 @@
     document.getElementById("backBtn").addEventListener("click", () => (location.hash = ""));
     const ep = document.getElementById("editProblem");
     if (ep) ep.addEventListener("click", openProblem);
+    const playBtn = document.getElementById("playBtn");
+    if (playBtn) playBtn.addEventListener("click", () => launchGame(m));
     renderWorkshop(m, document.getElementById("workshop"));
+  }
+
+  // ---------- Game 3D ----------
+  function gameCta(m) {
+    const g = GAMES[m.id];
+    if (!g) return "";
+    const best = store.get("game:" + m.id + ":best", 0);
+    return `
+      <div class="play-cta">
+        <span class="pc-ic">🎮</span>
+        <span class="pc-txt">
+          <b>Game 3D: ${esc(g.name)}</b>
+          <span>${esc(g.desc)}</span>
+        </span>
+        ${best ? `<span class="pc-best">🏆 Kỷ lục ${best}</span>` : ""}
+        <button class="btn" id="playBtn">Chơi ngay →</button>
+      </div>`;
+  }
+
+  async function launchGame(m) {
+    const g = GAMES[m.id];
+    if (!g) return;
+    const btn = document.getElementById("playBtn");
+    if (btn) { btn.disabled = true; btn.textContent = "Đang tải…"; }
+    try {
+      const mod = await import(JS_BASE + g.file);
+      mod.launch({ problem: getProblem(), onFinish: () => router() });
+    } catch (err) {
+      console.error(err);
+      alert("Không tải được game. Trang cần chạy qua máy chủ web (ví dụ: python3 -m http.server) chứ không mở trực tiếp bằng file://");
+    } finally {
+      if (btn) { btn.disabled = false; btn.textContent = "Chơi ngay →"; }
+    }
   }
 
   // Ô ghi chú tự lưu dùng chung

@@ -29,9 +29,34 @@ từ khóa ngẫu nhiên và ô ghi ý. Toàn bộ ghi chú được **lưu ngay
 12. Đảo Lộn Vấn Đề (Reversal)
 13. Cụ Thể Hóa & Tổng Quát Hóa
 
+## Game 3D (Three.js)
+
+Mỗi phương pháp sẽ có một game 3D để biến lý thuyết thành phản xạ. **Bài 1 đã xong**,
+12 bài còn lại đang làm dần.
+
+### Bài 1 · “Vụ Nổ Ý Tưởng”
+
+Vấn đề của bạn là cái lõi phát sáng giữa vũ trụ. Mỗi ý gõ ra nổ tung khỏi lõi và
+bay vào quỹ đạo. Bốn nguyên tắc của Osborn được cài thẳng vào luật chơi:
+
+| Nguyên tắc | Cơ chế game |
+|---|---|
+| Không phê phán | Ngừng gõ quá lâu → vòng **Kiểm Duyệt** đỏ siết vào, cắt combo |
+| Hoan nghênh ý điên rồ | `Ctrl`+`Enter` → sao vàng, điểm ×2 |
+| Chạy theo số lượng | Bung ý liên tiếp dưới 8 giây → combo nhân điểm |
+| Kết hợp & cải tiến | Bấm 2 quả cầu để ghép thành siêu tân tinh, +60 điểm |
+
+Kết thúc, game chấm điểm theo 4 chiều của tư duy sáng tạo — **lưu loát, độc đáo,
+cải tiến, dòng chảy** — kèm nhận xét, và mọi ý tưởng được đổ thẳng vào phần
+Thực hành của Bài 1 để bạn sàng lọc tiếp.
+
+Three.js được **vendor sẵn** trong `vendor/` nên site chạy được offline, không
+phụ thuộc CDN.
+
 ## Chạy
 
-Là website tĩnh, không cần build. Chỉ cần mở `index.html`, hoặc chạy máy chủ tĩnh:
+Là website tĩnh, không cần build. Vì game dùng ES module, **phải chạy qua máy chủ
+web** (mở thẳng `file://` sẽ bị trình duyệt chặn module):
 
 ```bash
 python3 -m http.server 8000
@@ -46,11 +71,21 @@ vì chỉ gồm HTML/CSS/JS thuần.
 ## Cấu trúc
 
 ```
-index.html      # khung trang + modal đặt vấn đề
-css/style.css   # giao diện
-js/data.js      # nội dung 13 phương pháp + ngân hàng từ khóa ngẫu nhiên
-js/app.js       # router, lưu trữ, và các bài tập tương tác
+index.html            # khung trang + modal đặt vấn đề
+css/style.css         # giao diện trang
+css/game.css          # giao diện lớp phủ game 3D
+js/data.js            # nội dung 13 phương pháp + ngân hàng từ khóa ngẫu nhiên
+js/app.js             # router, lưu trữ, các bài tập tương tác, đăng ký game
+js/games/engine.js    # engine 3D dùng chung (sân khấu, nhãn, hạt, âm thanh)
+js/games/brainstorm.js# Bài 1 — game "Vụ Nổ Ý Tưởng"
+vendor/               # Three.js (bản vendor, giấy phép MIT kèm theo)
 ```
+
+### Thêm game cho bài mới
+
+1. Viết `js/games/<ten>.js` export hàm `launch({ problem, onFinish })`, dùng
+   `createOverlay` + `createStage` từ `engine.js`.
+2. Đăng ký vào `GAMES` ở đầu `js/app.js` — nút “Chơi ngay” tự hiện ở trang đó.
 
 ## Ghi công
 
